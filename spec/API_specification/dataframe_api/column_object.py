@@ -421,9 +421,16 @@ class Column:
         """
         Raise this column to the power of `other`.
 
-        Integer dtype to the power of non-negative integer dtype is integer dtype.
-        Integer dtype to the power of float dtype is float dtype.
-        Float dtype to the power of integer dtype or float dtype is float dtype.
+        What raising to a scalar:
+
+        - integer dtype to the power of non-negative integer is integer dtype;
+        - integer dtype to the power of float is float dtype;
+        - float dtype to the power of integer or float is float dtype.
+
+        When raising to a column:
+
+        - raising to unsigned integer dtype preserves the base dtype;
+        - else, output will be float dtype.
 
         Parameters
         ----------
