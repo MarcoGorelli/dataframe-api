@@ -2,7 +2,7 @@
 """Function stubs and API documentation for the DataFrame API standard."""
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Literal
 
 from .column_object import Column
 from .dataframe_object import DataFrame
@@ -288,3 +288,94 @@ def date(year: int, month: int, day: int) -> Scalar:
     ... )
     >>> df.filter(mask)
     """
+
+
+def any_rowwise(*columns: Column, skip_nulls: bool = True) -> Column:
+    """Reduction returns a Column.
+
+    Differs from ``DataFrame.any`` in that the reduction happens
+    for each row, rather than for each column.
+
+    Raises
+    ------
+    ValueError
+        If any of the DataFrame's columns is not boolean.
+    """
+    ...
+
+
+def all_rowwise(*columns: Column, skip_nulls: bool = True) -> Column:
+    """Reduction returns a Column.
+
+    Differs from ``DataFrame.all`` in that the reduction happens
+    for each row, rather than for each column.
+
+    Raises
+    ------
+    ValueError
+        If any of the DataFrame's columns is not boolean.
+    """
+    ...
+
+
+def sorted_indices(
+    *columns: Column,
+    ascending: Sequence[bool] | bool = True,
+    nulls_position: Literal["first", "last"] = "last",
+) -> Column:
+    """Return row numbers which would sort according to given columns.
+
+    If you need to sort the DataFrame, use :meth:`DataFrame.sort`.
+
+    Parameters
+    ----------
+    *columns : Column
+        Columns to sort by.
+    ascending : Sequence[bool] or bool
+        If `True`, sort by all keys in ascending order.
+        If `False`, sort by all keys in descending order.
+        If a sequence, it must be the same length as `keys`,
+        and determines the direction with which to use each
+        key to sort by.
+    nulls_position : ``{'first', 'last'}``
+        Whether null values should be placed at the beginning
+        or at the end of the result.
+        Note that the position of NaNs is unspecified and may
+        vary based on the implementation.
+
+    Returns
+    -------
+    Column
+
+    Raises
+    ------
+    ValueError
+        If `keys` and `ascending` are sequences of different lengths.
+    """
+    ...
+
+
+def unique_indices(*columns: Column, skip_nulls: bool = True) -> Column:
+    """Return indices corresponding to unique values across selected columns.
+
+    Parameters
+    ----------
+    *columns : Column
+        Column names to consider when finding unique values.
+
+    Returns
+    -------
+    Column
+        Indices corresponding to unique values.
+
+    Notes
+    -----
+    There are no ordering guarantees. In particular, if there are multiple
+    indices corresponding to the same unique value(s), there is no guarantee
+    about which one will appear in the result.
+    If the original column(s) contain multiple `'NaN'` values, then
+    only a single index corresponding to those values will be returned.
+    Likewise for null values (if ``skip_nulls=False``).
+    To get the unique values, you can do ``df.get_rows(df.unique_indices(keys))``.
+    """
+    ...
