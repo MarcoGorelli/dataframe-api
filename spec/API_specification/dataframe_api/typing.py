@@ -64,16 +64,11 @@ class Namespace(Protocol):
     class Date:
         ...
 
-    class NullType:
-        ...
-
-    null: NullType
-
     class Datetime:
         def __init__(  # noqa: ANN204
             self,
             time_unit: Literal["ms", "us"],
-            time_zone: str | None,
+            time_zone: str | None = None,
         ):
             ...
 
